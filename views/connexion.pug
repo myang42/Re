@@ -1,0 +1,33 @@
+link(href="./css/coninslog.css" rel="stylesheet" type="text/css")
+title Connexion
+
+include elements/header.pug
+
+//- <google localisation>
+script(src='https://maps.google.com/maps/api/js?key=AIzaSyBwgRxtfHhxdYL6XVDQqfRSk_y5yNVffW0')
+
+body
+	.row
+		.ConnexDiv
+			form(action="/connexion-back" method="post")
+				table
+					tr
+						td(style="border-style:none none solid none;")
+							p(style="font-size:2em") Connexion
+					tr
+						td(style="padding-top: 10%;")
+							label.labelinpt Nom d'utilisateur:
+							input.fieldinpt(type="text" name="username" required autocomplete="off")
+					tr
+						td
+							label.labelinpt Mot de passe:
+							input.fieldinpt(type="password" name="mdp" required autocomplete="off")
+					tr
+						td
+							a(style="-webkit-appearance: none;size:0.7em;" href="/forgot-password" type="submit") Mot de passe oublié ?
+					tr
+						td
+							input#latitude(type='hidden' name='latitude' value= lat)
+							input#longitude(type='hidden' name='longitude' value= long)
+							input.validbut(type="submit" value='Se connecter' name="connect")
+include elements/footer.pug

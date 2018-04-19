@@ -1,0 +1,31 @@
+html
+	head
+		title Matcha
+		link(href='http://fonts.googleapis.com/css?family=Ubuntu Condensed' rel='stylesheet' type='text/css')
+		link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js")
+		script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+		script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+		script(src="/socket.io/socket.io.js")
+
+		<!-- ViewPort @Mobile -->
+		meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+		link(href="/css/style.css" rel="stylesheet" type="text/css")
+		link(href="/css/header.css" rel="stylesheet" type="text/css")
+
+	header
+		.matchaTitle
+			h1 Matcha
+			.heart
+			.menu
+				if (id !== undefined)
+					- var menuoption = []
+				else
+					- var menuoption = [{nm : ["S'inscrire", 'inscription']}, {nm : ["Se Connecter", 'connexion']}];
+					
+				ul
+					each val in menuoption
+						li
+							a(href='\/'+val.nm[1] title=val.nm[0] alt=val.nm[0]) #{val.nm[0]}
