@@ -1,0 +1,78 @@
+link(href="./css/profil.css" rel="stylesheet" type="text/css")
+title Modification de Profile
+
+include elements/header.pug
+include elements/footer.pug
+
+mixin ppimg(img, name, nameid)
+	-var pathimgpp = (img != NULL) ? img : ""
+	input.pp(type='file' style="background-image:url('"+pathimgpp+"')" name=nameid class=name id=nameid)
+
+mixin inputinfos(info, type, label, typeinfo)
+	label.labelinpt #{label}
+	input.fieldinpt(name=type type=typeinfo value=info placeholder='Veillez saisir votre '+label)
+
+mixin sexinfos(sexevalue)
+	- for (i = 0; i < 3; i++)
+		-var sexelabel = ['Autre','Homme', 'Femme']
+		if (sexevalue == i)
+			option(value=i required id='gendre-'+i selected) #{sexelabel[i]}
+		else
+			option(value=i required id='gendre-'+i) #{sexelabel[i]}
+
+mixin inputprfsex(typesex, value, label)
+	label(style="display:inline-block") #{label} ? 
+	input(name='or_'+typesex type="checkbox" checked=value)
+
+body
+	.row
+		form(action="edit-profile-back" method="POST" encType="multipart/form-data")
+			.col-4
+				#photos.cadre.photo
+					+ppimg(values[0].img1, 'img-1', 'img1')
+					+ppimg(values[0].img2, 'img-2', 'img2')
+					+ppimg(values[0].img3, 'img-3', 'img3')
+					+ppimg(values[0].img4, 'img-4', 'img4')
+					+ppimg(values[0].img5, 'img-5', 'img5')
+				#pinfos.cadre.txt
+					p.title.
+						#[strong Informations Personnelles]
+					+inputinfos(values[0].prenom, 'prenom', 'Prénom:', 'text')
+					+inputinfos(values[0].nom, 'nom', 'Nom:', 'text')
+					+inputinfos(values[0].ville, 'ville', 'Localisation:', 'text')
+					label.labelinpt Genre
+					select.fieldinpt(form='edit' name='sexe')
+						+sexinfos(values[0].sexe)
+					label.labelinpt Date de Naissance:
+					input.fieldinpt(type="date" value=values[0].birth_date name="birth_date" required)
+			.col-4
+				//- informations propres au site | bio
+				#dinfos.cadre.txt
+					p.title.
+						#[strong Informations du Compte]
+					+inputinfos(values[0].login, 'pseudo', 'Pseudonyme', 'text')
+					+inputinfos(null, 'old_password', 'Nouveau mot de passe', 'password')
+					+inputinfos(null, 'password', 'Confirmation du nouveau mot de passe', 'password')
+					+inputinfos(values[0].email, 'email', 'Email', 'email')
+				#bio.cadre.txt
+					p.title.
+						#[strong Biographie]
+					textarea(form='edit' name='bio' placeholder='Parlez de vous' value=values[0].bio)
+			.col-4
+				//- tags | orientation
+				#tags.cadre.txt
+					+inputinfos(values[0].tags, 'tags', 'Liste de vos Tags', 'text')
+					br
+					for tagval in usertags
+						span.classtags #{tagval.name}
+				#looking.cadre.txt
+					p.title.
+						#[strong Ce que vous recherchez]
+					.checkbox
+						+inputprfsex('h', values[0].or_h, 'homme')
+						span &#x2642;
+						+inputprfsex('f', values[0].or_f, 'femme')
+						span &#x2640;
+						+inputprfsex('a', values[0].or_a, 'autre')
+						span &#x2641;				
+			input.validbut(type="submit" value='Valider' name="valid")

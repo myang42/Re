@@ -6,17 +6,39 @@ include elements/footer.pug
 
 script(src='https://maps.google.com/maps/api/js?key=AIzaSyBwgRxtfHhxdYL6XVDQqfRSk_y5yNVffW0')
 
+mixin errorMessage(error)
+	-
+		var errormessage = {
+			txt: [
+				"null",
+				"Pseudonyme trop court",
+				"Pseudonyme trop long",
+				"Pseudonyme déjà utilisé",
+				"Mot de passe trop court",
+				"Mot de passe trop long",
+				"Mot de passe trop simple",
+				"Adresse email invalide",
+				"Adresse email déjà existante",
+				"Prenom trop long",
+				"Nom trop long",
+				"Veillez remplir tous les champs"
+			]
+		};
+	span Erreur: #{errormessage.txt[error]}.
+
 body
+	if error
+		+errorMessage(error)
 	.ConnexDiv
 		p(style="font-size:2em") Inscription
 		.border(style='border-style:solid none none none')
 		br
 		form(action="/inscription-back" method="post")
-			- var dataInfo = [{dataName: [{nm :'pseudo'},{ nm :'passpwd'},{ nm :'email'},{ nm :'prenom'},{ nm:'nom'}], dataType: ['text', 'password', 'email', 'text', 'text'], dataValue: ['Pseudonyme', 'Mot de passe','E-mail','Prénom','Nom']}];
+			- var dataInfo = [{dataName: [{nm :'pseudo'},{ nm :'passwd'},{ nm :'email'},{ nm :'prenom'},{ nm:'nom'}], dataType: ['text', 'password', 'email', 'text', 'text'], dataValue: ['Pseudonyme', 'Mot de passe','E-mail','Prénom','Nom']}];
 			mixin dataField(dataInfo)
 				- for (var i = 0; i <= 4; i++)
 					label.labelinpt #{dataInfo.dataValue[i]} :
-					input.fieldinpt(type= dataInfo.dataType[i] name= dataInfo.dataName[i].nm required autocomplete="#{dataInfo.dataName[i].nm}")
+					input.fieldinpt(type= dataInfo.dataType[i] name= dataInfo.dataName[i].nm required autocomplete="off")
 			for data in dataInfo
 				+dataField(data)
 			input#latitude(type='hidden' name='latitude' value= lat)
