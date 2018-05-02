@@ -1,0 +1,101 @@
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+<% include parts/header-chat.ejs %>
+<div class="ui yellow center aligned segment" style="max-width:900px;margin:auto;margin-top:50px;margin-bot:50px;">
+<%= (users.length == 0 ? "Vous devez matcher avec un utilisateur pour pouvoir chatter avec lui" : "")%>
+<% users.forEach(function(user){ %>
+<a href="http://localhost:8081/chat?match=<%= user.id %>" class="ui image label">
+  <img src="<%= user.img1 %>">
+  <%= user.login %>
+</a>
+<% }) %>
+</div>
+<% if (match) { %>
+<div class="ui yellow center aligned segment" id="connexion-div">
+  <div class="item">
+    <div class="right floated content">
+    </div>
+    <img class="ui avatar image" src="<%= match.img1 %>">
+    <div class="content">
+    <%= match.login %>
+    </div>
+  </div>
+  <div id="message-list">
+<% messages.forEach (function(message){ %>
+  <% if (userId === message.id_src){ %>
+    <div class="ui yellow message" style="text-align:right"> <%= message.text %> </div>
+  <% } else { %>
+    <div class="ui blue message" style="text-align:left"> <%= message.text %> </div>
+  <% } %>
+<% }) %>
+</div><br>
+  <form>
+    <div class="ui large icon input">
+      <input id="message" type="text" name="message" placeholder="Message" required>
+      <i class="comments icon"></i>
+    </div>
+  </form>
+<% } %>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+<script>
+/*
+var socket = io.connect("http://localhost:5000");
+var i, j;
+socket.on("<%= userId %>-<%= dstId %>", function (message) {
+  $("#message-list").append('<div class="ui yellow message" style="text-align:right">' + message.message + '</div>');
+});
+
+socket.on("<%= dstId %>-<%= userId %>", function (message) {
+  $("#message-list").append('<div class="ui blue message" style="text-align:left">' + message.message + '</div>');
+});
+*/
+function ShowNotif(titre, TheText)
+{
+  var options = {
+    body: TheText,
+  }
+  Notification.requestPermission();
+  var n = new Notification(titre, options);
+  n.onshow = function(){
+    setTimeout(n.close.bind(n), 5000);
+  }
+}
+socket.on('notif<%= userId %>', function(src_id, src_name, type) {
+  if (type == 0)
+    ShowNotif("❤️", src_name + " viens de te liker ! :D")
+  else if (type == 1)
+    ShowNotif("Nouveau visiteur !", src_name + " a visité ton profil")
+  else if (type == 2)
+    ShowNotif("✉️ ", src_name + " a quelque chose a te dire")
+  else if (type == 3)
+    ShowNotif("It's a match !", src_name + "  viens de matcher avec toi !")
+  else if (type == 4)
+    ShowNotif("💔", src_name + " ne te like plus :(")
+})
+
+$("form").submit(function(e){
+  var text = $('#message').val();
+  socket.emit('message', {
+    channel: "<%= userId %>-<%= dstId %>",
+    message: text
+  });
+  $('#message').val("");
+  e.preventDefault();
+});
+
+/**
+ * Liste des messages
+
+var messages = [];
+
+/**
+ * Liste des utilisateurs
+
+var users = [];
+
+
+/*** DataBinding initial ***/
+</script>

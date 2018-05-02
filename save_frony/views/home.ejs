@@ -1,0 +1,28 @@
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+<% include parts/header.ejs %>
+<title>Lol</title>
+<div id='body'>
+  <% for(var i=0; i<10 && i < values.length; i++) {%>
+    <div class="ui centered card">
+    <div class="image" style="height:290px">
+      <img src="<%= values[i].img1%>">
+    </div>
+    <div class="content">
+      <a href="/profil/<%= values[i].login%>" class="header"><%= values[i].login %> (<%= values[i].birth_date %> ans)</a>
+      <div class="meta">
+        <span class="date"> <%= values[i].ville %> (<%= values[i].dist %> km)</span>
+      </div>
+      <div class="description">
+        <%= values[i].bio %>
+      </div>
+    </div>
+    <div class="extra content">
+      <a href="/profil/<%= values[i].login%>">
+        <i class="empty star icon"></i>
+        <%= values[i].popularity %> Points<br> <%= values[i].status %>
+      </a>
+    </div>
+  </div>
+  </a>
+  <% } %>
+</div>

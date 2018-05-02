@@ -1,0 +1,60 @@
+<link href="./css/connexion.css" rel="stylesheet" type="text/css">
+<title>Connexion</title>
+
+<% include elements/header.ejs %>
+
+<!-- google localisation -->
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyBwgRxtfHhxdYL6XVDQqfRSk_y5yNVffW0" type="text/javascript"></script>
+<!-- --->
+
+<body>
+	<div class="row">
+	  <div class="col-3"></div>
+	  <div class="col-6 ConnexDiv">
+		<form action="/connexion-back" method="post">
+			<table>
+				<tr>
+					<td style="border-style:none none solid none;">
+						<p style="font-size:2em"><b>Connexion</b></p>
+					</td>
+				</tr>
+				<tr>
+					<td style="padding-top: 10%;">
+						<label class="labelinpt">Nom d'utilisateur: </label>
+						<input type="text" name="username" required autocomplete="off" class="fieldinpt">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label class="labelinpt">Mot de passe: </label>
+						<input type="password" name="mdp" required autocomplete="off" class="fieldinpt">
+					</td>
+				</tr>
+				<tr><td>
+					<a 	style="-webkit-appearance: none;"
+						href="/forgot-password" type="submit" style="size=0.7em;">Mot de passe oublié ?</a>
+				</td></tr>
+				<tr><td>
+					<input type=hidden name=latitude id=latitude value=<%= lat %>>
+			        <input type=hidden name=longitude id=longitude value=<%= long %>>
+					<input 	class="validbut"
+							type="submit" value="Se connecter" name="connect" class="button"></button>
+				</td></tr>
+			</table>
+		</form>
+	</div>
+	<div class="col-3"></div>
+	</div>
+	<script>
+	function maPosition(position){
+	  document.getElementById("latitude").value = position.coords.latitude;
+	  document.getElementById("longitude").value = position.coords.longitude;
+	}
+	if(navigator.geolocation)
+	{
+	  navigator.geolocation.getCurrentPosition(maPosition);
+	}
+	</script>
+</body>
+
+<% include elements/footer.ejs %>

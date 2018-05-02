@@ -1,0 +1,129 @@
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+<% include parts/header.ejs %>
+<title>Lol</title>
+<div id='body'>
+<div class="ui yellow middle center aligned segment" style="max-width:1200px; margin:auto">
+  <h4 class="ui header">Modification Profil </h4>
+  <form action="edit-profile-back" method="POST" id=edit encType="multipart/form-data">
+  <div class="ui form">
+  <div class="four fields">
+    <div class="field">
+      <label>Pseudo</label>
+      <input type="text" name=pseudo placeholder="ex : Darklaink, damiLeBoss.." value=<%=values[0].login%> required>
+    </div>
+    <div class="field">
+      <label>Prenom</label>
+      <input type="text" name=prenom placeholder="ex : Thomas, Henry, Damien.." value=<%=values[0].prenom%> required>
+    </div>
+    <div class="field">
+      <label>Nom</label>
+      <input type="text" name=nom placeholder="ex : Dupont, Miette .." value=<%=values[0].nom%> required>
+    </div>
+    <div class="field">
+      <label>Localisation</label>
+      <input type="text" name=ville placeholder="ex : Paris, Nantes, j'ai cramé" value=<%=values[0].ville%> required>
+    </div>
+  </div>
+  <div class="two fields">
+    <div class="field">
+      <label>Ancien Password</label>
+      <input name="old_password" type="password" required>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input name="password" type="password">
+    </div>
+  </div>
+  <div class="three fields">
+  <div class="field">
+    <label>Genre :</label>
+    <select form="edit" name=sexe class="ui dropdown" required>
+      <option value="1" <%=values[0].sexe == 1 ? "selected" : " " %>>Homme</option>
+      <option value="2" <%=values[0].sexe == 2 ? "selected" : " " %>>Femme</option>
+      <option value="0" <%=values[0].sexe == 0 ? "selected" : " " %>>Autre Genre</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Ta date de naissance (vous devez avoir plus de 18 ans)</label>
+    <input name="birth" type="date" required >
+  </div>
+  <div class="field">
+    <label>E-mail</label>
+    <input type="email" name=email placeholder="ex : Jeveu1wankul@gmail.fdp" value=<%= values[0].email%> required>
+  </div>
+</div>
+  <div class="ui form success">
+
+  <div class="ui center form">
+    <div class="inline fields" style="margin:auto">
+    <label>Tu recherche : </label>
+      <div class="field">
+        <div class="ui radio checkbox">
+        <input type="checkbox" name="or_h" <%= values[0].or_h == 1 ? "checked" : ""%>>
+        <label><i class="man icon"></i></label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+        <input type="checkbox" name="or_f" <%= values[0].or_f == 1 ? "checked" : ""%>>
+        <label><i class="woman icon"></i></label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+        <input type="checkbox" name="or_a" <%= values[0].or_a == 1 ? "checked" : ""%>>
+        <label><i class="other gender icon"></i></label>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label>Tes Tags (Pour supprimer vos tags, rendez vous sur le profil)</label>
+  <input type="text" name="tags" placeholder="ex : #jssuLink, #LeBoss..">
+</div>
+  <div>
+    <div class="field">
+    <label>Ta bio</label>
+    <textarea form="edit" name=bio placeholder="J'etais dans le metro et puis j'ai cramé"><%=values[0].bio%></textarea>
+  </div>
+  Vos photos<br>
+    <div class="five fields">
+      <div class="field">
+    <label for="img1" class="ui icon button">
+        <i class="file icon"></i>
+        Open File</label>
+    <input type="file" id="img1" style="display:none" name=img1>
+</div>
+<div class="field">
+<label for="img2" class="ui icon button">
+  <i class="file icon"></i>
+  Open File</label>
+<input type="file" id="img2" style="display:none" name=img2>
+</div>
+
+<div class="field">
+<label for="img3" class="ui icon button">
+  <i class="file icon"></i>
+  Open File</label>
+<input type="file" id="img3" style="display:none" name=img3>
+</div>
+<div class="field">
+<label for="img4" class="ui icon button">
+  <i class="file icon"></i>
+  Open File</label>
+<input type="file" id="img4" style="display:none" name=img4>
+</div>
+<div class="field">
+<label for="img5" class="ui icon button">
+  <i class="file icon"></i>
+  Open File</label>
+<input type="file" id="img5" style="display:none" name=img5>
+</div>
+</div>
+<br>
+  <input type="submit" class="ui submit button">Submit</div>
+</form>
+</div>
+</div>
+</div>
+</div>

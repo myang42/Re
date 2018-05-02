@@ -1,0 +1,69 @@
+<html>
+	<head>
+		<title>Matcha</title>
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu Condensed' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io.connect("http://localhost:5000");
+			function ShowNotif(titre, TheText)
+			{
+				var options = {
+					body: TheText,
+				}
+				Notification.requestPermission();
+				var n = new Notification(titre, options);
+				n.onshow = function(){
+					setTimeout(n.close.bind(n), 5000);
+				}
+			}
+			socket.emit('nonlu', <%= id %>)
+			socket.on('nonlu', function(msg, notif){
+				document.getElementById("msg").innerHTML = msg
+				document.getElementById("notif").innerHTML = notif
+			})
+			socket.on('notif<%= id %>', function(src_id, src_name, type) {
+				if (type == 0)
+					ShowNotif("❤️", src_name + " viens de te liker ! :D")
+				else if (type == 1)
+					ShowNotif("Nouveau visiteur !", src_name + " a visité ton profil")
+				else if (type == 2)
+				{
+					document.getElementById("msg").innerHTML = parseInt(document.getElementById("msg").innerHTML) + 1
+					ShowNotif("✉️ ", src_name + " a quelque chose a te dire")
+				}
+				else if (type == 3)
+					ShowNotif("It's a match !", src_name + "  viens de matcher avec toi !")
+				else if (type == 4)
+					ShowNotif("💔", src_name + " ne te like plus :(")
+				document.getElementById("notif").innerHTML = parseInt(document.getElementById("notif").innerHTML) + 1
+			})
+		</script>
+		<link href="/css/style.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	</head>
+	<body>
+    <div id="banner">
+			<div id="left-menu">
+				<a href="/"><div>🏠</div></a>
+				<a href="/my-likes"><div>❤️ </div></a>
+				<a href="/search"><div>🔍 </div></a>
+				<a href="/chat"><div>✉️ (<label id="msg">0</label>)</div></a>
+				<a href="/notifications"><div>🔔 (<label id="notif">0</label>)</div></a>
+			</div>
+			<div id="center-menu">
+				<div style="width:100%">
+					<a href="/"><p id="title">🍌 Matcha 🍌</p></a>
+				</div>
+			</div>
+			<div id="right-menu">
+				<a href="/visites"><div>Mes Visiteurs</div></a>
+				<a href=/profil/me><div>Mon profil</div></a>
+				<a href=/edit-profile><div>⚙️</div></a>
+				<a href=/logout><div>❌</div></a>
+			</div>
+		</div>

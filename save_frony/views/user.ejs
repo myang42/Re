@@ -1,0 +1,125 @@
+<title><%= value.login %> - Matcha</title>
+<% include parts/header.ejs %>
+<style>
+       #map {
+        height: 200px;
+        width: 80%;
+        margin: auto;
+        min-width: 500px;
+        margin-top: 7px;
+       }
+    </style>
+      <div id=map class=row></div></br>
+      <p style="text-align:center; color:white">L'emplacement est approximatif</p>
+<div style="width:80%;min-width:500px;max-width:1500px;margin:auto;background-color:lightyellow;"">
+    <div class="ui celled grid">
+        <div class="row">
+          <div class="three wide column">
+            <img class="ui large circular image" src="<%= (value.img1 ? value.img1 : "/wankuls/zpim678X.png") %>">
+            <div class="ui center aligned segment">
+              <img class="ui mini middle aligned image" src=" <%= (value.img2 ? value.img2 :  "/wankuls/zpim678X.png") %>">
+              <img class="ui mini middle aligned image" src=" <%= (value.img3 ? value.img3 :  "/wankuls/zpim678X.png") %>">
+              <img class="ui mini middle aligned image" src=" <%= (value.img4 ? value.img4 :  "/wankuls/zpim678X.png") %>">
+              <img class="ui mini middle aligned image" src=" <%= (value.img5 ? value.img5 :  "/wankuls/zpim678X.png") %>">
+            </div>
+            <div class="ui yellow 1center aligned segment">
+              <%= value.popularity %> <i class="star icon"></i>
+            </div>
+          </div>
+          <div class="thirteen wide column">
+            <div class="ui yellow inverted center aligned segment"><%= value.login %> <%=value.prenom %> <%=value.nom%> </div>
+            <div class="ui two column grid">
+              <div class="column">
+                <div class="ui right compact green segment">
+                  <p><%= value.time %></p>
+                </div>
+            <div class="ui compact yellow segment">
+            <p>Age : <%= value.birth_date %> ans</p>
+          </div>
+          <div class="ui left compact yellow segment">
+            <p>Sexe : <%= (value.sexe == 1 ? "Homme" : (value.sexe == 2 ? "Femme" : "Autre"))%> </p>
+          </div>
+          <div class="ui right compact yellow segment">
+            <p>Préférence de genres : <% if (value.or_h == 1) {%>
+              <i class="man icon"></i>
+              <% }if (value.or_f == 1) {%>
+              <i class="woman icon"></i>
+              <% }if (value.or_a == 1) {%>
+              <i class="other gender icon"></i>
+            <% } %>
+             </p>
+          </div>
+          <div class="ui right compact yellow segment">
+            <p>Geolocalisation : <%= value.dist %> km (<%= value.ville %>)</p>
+          </div>
+        </div>
+        <div class="column">
+            <p><div class="ui right compact yellow segment">
+              <h4 class="ui header">Tags :</h4>
+              <p><% for(var i=0; i<tags.length; i++){ %>
+                <% if (me == 1){ %>
+                  <a href="/delete-tags/<%= tags[i].name %>">✖️</a>
+                  <%}%>
+                  <%= "#" + tags[i].name  %>
+              <% } %>
+            </p>
+            </div></p>
+            <div class="column">
+                <p><div class="ui right compact yellow segment" style="word-wrap: break-word;">
+                  <h4 class="ui header">Description</h4>
+                  <p><%= value.bio %></p>
+                </div></p>
+                </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <% if (value.id != id) {%>
+      <div class="three wide column">
+        <div class="ui center aligned segment">
+          <button id=like class='ui red button'><%= (liked_by_user ? "Déja liké" : "Like")%></button>
+		  <button class='ui disabled blue button'><%= (matched ? "Match :D" : (liked_user ?  "Vous like !": "Ne vous like pas"))%></button>
+		  <button id=dislike class='ui grey button'>Ignorer</button>
+        </div>
+      </div>
+      <a href="/report/<%= value.login %>"<button class="ui black button">Report !</button></a>
+    </div>
+    </div>
+    <script>
+      socket.emit('init', <%= id %>, <%=value.id %>)
+      $('#like').click(function () {
+        if (document.getElementById('like').innerHTML == "Déja liké")
+          document.getElementById('like').innerHTML = "Like"
+        else
+          document.getElementById('like').innerHTML = "Déja liké"
+        document.getElementById('dislike').innerHTML = "Ignorer"
+        socket.emit('vote', <%= value.id %>, 1);
+      })
+      $('#dislike').click(function () {
+        document.getElementById('dislike').innerHTML = "Ignoré"
+        document.getElementById('like').innerHTML = "Like"
+        socket.emit('vote', <%= value.id %>,-1);
+      })
+      </script>
+        <% } %>
+        <script>
+      function initMap() {
+        var uluru = {lat: <%=value.latitude%>, lng: <%=value.longitude%>};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 7.5,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwgRxtfHhxdYL6XVDQqfRSk_y5yNVffW0&callback=initMap">
+    </script>
+  </div>
+
+
+</div>
