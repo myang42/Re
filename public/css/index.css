@@ -1,0 +1,178 @@
+#searcharea{
+	background-color: rgba(0,0,0,.3);
+    border-radius: 5px 5px;
+    padding: 5%;
+	padding-top: 3%;
+	height:305px;
+}
+
+#searcharea input[type='submit']{
+	position: relative;
+    width: 45%;
+    height: 36px;
+    border-radius: 5px 5px;
+    bottom: -22px;
+    right: 0;
+    left: 57%;
+	border-radius: 10px;
+	color: white;
+	background-color: rgb(54,148,156);
+	font-family: 'TitleFont', Fallback, sans-serif;
+	text-shadow: 2px 2px 4px #000000;
+	border-width: 2px;
+	border-style: solid;
+	font-size:1.5em;
+}
+
+#searcharea input[type='submit']:hover, #searcharea input[type='submit']:focus{
+	cursor:pointer;
+}
+
+.fieldmatch{
+	position: relative;
+    margin: 0 auto;
+    min-width: 33%;
+    max-width: 63%;
+}
+
+[id*=like-]{
+	width:50px;
+	height:50px;
+	border: 2px solid red;
+}
+
+.title{
+	font-size: 1.55em;
+	padding-bottom: 12px;
+	display: block;
+	position: relative;
+}
+
+.profillink{
+	font-size:1.33em;
+	position: inherit;
+    top: 6px;
+    margin-top: 5px;
+}
+
+.profillink:hover, .profillink:focus{
+	color:#fccf40;
+}
+
+.profilmatch{
+	/* border: dotted 2px white; */
+	border-style: ridge;
+	border-radius: 3%;
+	border-color: rgba(255,255,255,.15);
+	background-color:#45455369;
+	margin:0;
+	margin-top:12px;
+	margin-bottom: 12px;
+	position:inherit;
+	display:inline-block;
+	height:380px;
+	max-width: 300px;
+	min-width: 255px;
+	padding:0;
+}
+
+.status{
+	font-size:0.75em;
+	float:right;
+	display:block;
+	margin:5px;
+	position:absolute;
+	bottom:0;
+	right:0;
+}
+
+.pimatch span{
+	margin-top:5px;
+	display:block;
+}
+
+.pnmatch{
+	font-size:2em;
+}
+
+.popularity{
+	margin-top:5px;
+	margin-bottom:5px;
+	display:block;
+}
+
+.popularity img{
+	width:16px;
+	height:16px;
+	margin-top:1px;
+	margin-left:2px;
+	position: relative;
+    top: 2px;
+}
+
+.ppmatch{
+    width: auto;
+	margin-bottom: 15px;
+	height:55%;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: 50% 50%;
+	background-color:rgba(0,0,0,.25);
+	border-top-left-radius: 3%;
+	border-top-right-radius: 3%;
+}
+.checkbox label{
+	margin-left:2%;
+	margin-right:5px;
+}
+
+.checkbox input {
+	margin-right: 5px;
+}
+.fieldinpt{
+	width: 50%;
+	min-width: 355px;
+    height: 25px;
+    border: none;
+	margin-top: 2px;
+	margin-left:2%;
+	margin-right:5px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: inset 1px 3px 10px rgba(0,0,0,0.4);
+}
+
+.agefield{
+	margin-top: 10px;
+}
+
+.agefield label{
+	margin-right: 15px;
+}
+
+.labelinpt{
+	display:block;
+}
+
+[class*="col-"] {
+    float: none;
+}
+
+.pages{
+	width: 100%;
+    position: relative;
+    display: block;
+    height: 1px;
+    margin-bottom: 125px;
+}
+
+.searchform{
+	position: relative;
+	max-width: 640px;
+	margin: 0 auto;
+}
+
+@media only screen and (min-width: 1024px) {
+	.profilmatch{
+		margin:12px;
+	}
+}

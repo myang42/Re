@@ -1,0 +1,58 @@
+.connexDiv{
+	background-color:#2B2B32;
+	border-color:#3F3F46;
+	border-style:double;
+	margin: 0 auto;
+	width:100%;
+	height:80%;
+	min-height:380px;
+	max-height:480px;
+	position:relative;
+	padding: 1% 2% 2% 3%;
+}
+
+[class*="col-"] {
+    float: left;
+}
+
+@media only screen and (min-width: 480px) {
+	.ConnexDiv{
+		margin-top:7%;
+		height:480px;
+		width:480px;
+	}
+}
+
+.ConnexDiv table{
+	width: -webkit-fill-available;
+}
+
+.ConnexDiv table tr td{
+	padding: 2%;
+}
+
+.labelinpt{
+	display:block;
+}
+.fieldinpt{
+	width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 2%;
+	margin-bottom:10px;
+    box-shadow: inset 1px 3px 10px rgba(0,0,0,0.4);
+}
+
+.validbut{
+	width: 150px;
+	height: 35px;
+	border-radius: 10px;
+	border-style: none;
+	color: white;
+	background-color: rgb(54,148,156);
+}
+
+.validbut:hover, .validbut:focus{
+	cursor:pointer;
+}
