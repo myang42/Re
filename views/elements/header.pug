@@ -21,7 +21,7 @@ html
 			.heart
 			.menu
 				if (id !== undefined)
-					- var menuoption = []
+					- var menuoption = [{nm : ["Messagerie", 'Messagerie']}, {nm : ["Mon Profil", 'profil/me']}, {nm: ['Se déconnecter', 'logout']}];
 				else
 					- var menuoption = [{nm : ["S'inscrire", 'inscription']}, {nm : ["Se Connecter", 'connexion']}];
 					
@@ -29,3 +29,5 @@ html
 					each val in menuoption
 						li
 							a(href='\/'+val.nm[1] title=val.nm[0] alt=val.nm[0]) #{val.nm[0]}
+
+		.empytarea

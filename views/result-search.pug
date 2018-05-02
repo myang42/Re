@@ -1,0 +1,89 @@
+link(href="./css/index.css" rel="stylesheet" type="text/css")
+link(href="./css/style.css" rel="stylesheet" type="text/css")
+
+title Matcha
+
+include elements/header.pug
+include elements/footer.pug
+
+mixin inputprfsex(typesex, value, label)
+	label(style="display:inline-block") #{label} ? 
+	if value
+		input(name='or_'+typesex type="checkbox" checked)
+	else
+		input(name='or_'+typesex type="checkbox")
+
+mixin inputinfos(info, type, label, typeinfo)
+	label.labelinpt #{label}
+	input.fieldinpt(name=type type=typeinfo value=info placeholder= 'Veuillez saisir la '+label+' recherchée.')
+
+mixin inputnbr(info, type, valminmax)
+	if info == null
+		- info = valminmax
+	input(name=type type='number' min='18' max='99' value=info id=type onchange='checkage()')
+
+	
+form.searchform(action="/search-back" method="post")
+	.col-12#searcharea
+		span.title #[em Que recherchez vous?]
+		.checkbox
+			| Orientation :
+			+inputprfsex('h', initialdata.or_h, 'homme')
+			| &#x2642;
+			+inputprfsex('f', initialdata.or_f, 'femme')
+			| &#x2640;
+			+inputprfsex('a', initialdata.or_a, 'autre')
+			| &#x2641;
+		.fields
+			+inputinfos(initialdata.tags, 'tags', 'Liste des Tags', 'text')
+			+inputinfos(initialdata.distMax, 'distMax', 'Distance', 'number')
+			+inputinfos(initialdata.popMin, 'popMin', 'Popularité', 'text')
+			.agefield
+				label Selectionnez la tranche d'âge désirée (comprise entre 18-99 ans):
+				+inputnbr(initialdata.ageMin, 'ageMin', '18')
+				|   -  
+				+inputnbr(initialdata.ageMax, 'ageMax', '99')
+				span( id='age')
+
+				script.
+					document.getElementById('age').style.color ='red';
+					function checkage(){
+						var old = document.getElementById('ageMax');
+						var young = document.getElementById('ageMin');
+						if (young.value < 18 || old.value > 99){
+							if (young.value < 18)
+								document.getElementById('age').innerHTML = ' Trop jeune !';
+							if (old.value > 99)
+								document.getElementById('age').innerHTML = ' Trop vieux !';
+							if (young.value < 18 && old.value > 99)
+								document.getElementById('age').innerHTML = ' Trop jeune et trop vieux !';
+						}
+						else if (old.value < young.value){
+							var tmp = old.value;
+							old.value = young.value;
+							young.value = tmp;
+						}
+						else{
+							document.getElementById('age').innerHTML = "";
+						}
+					}
+		input(type='submit' name='Valider' value='Valider')
+
+mixin profil(i)
+	.profilmatch.col-4
+		.ppmatch(style="background-image:url('"+values[i].img1+"')")
+		.pimatch
+			span.pnmatch #{values[i].login}
+			span(style='font-size:.77em') #{values[i].birth_date} ans &bull; #{values[i].ville} (#{values[i].dist} km)
+			.popularity
+				| Popularité : #{values[i].popularity} 
+				img(src='/img/star.png')
+		a.profillink(href='/profil/'+values[i].login alt=values[i].login) &rarr; Visiter son profil &larr;
+		.status #{values[i].status} 
+
+center
+	.fieldmatch
+		- for (i = 0; i < 12 && i < nbresult; i++)
+			+profil(i)
+
+	.pages

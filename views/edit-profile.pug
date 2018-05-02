@@ -6,11 +6,13 @@ include elements/footer.pug
 
 mixin ppimg(img, name, nameid)
 	-var pathimgpp = (img != NULL) ? img : ""
-	input.pp(type='file' style="background-image:url('"+pathimgpp+"')" name=nameid class=name id=nameid)
+	.pp(style="background-image:url('"+pathimgpp+"')" class=name id=nameid)
+		button
+		input(type='file' name=nameid)
 
 mixin inputinfos(info, type, label, typeinfo)
 	label.labelinpt #{label}
-	input.fieldinpt(name=type type=typeinfo value=info placeholder='Veillez saisir votre '+label)
+	input.fieldinpt(name=type type=typeinfo value=info placeholder='Veuillez saisir votre '+label)
 
 mixin sexinfos(sexevalue)
 	- for (i = 0; i < 3; i++)
@@ -22,46 +24,49 @@ mixin sexinfos(sexevalue)
 
 mixin inputprfsex(typesex, value, label)
 	label(style="display:inline-block") #{label} ? 
-	input(name='or_'+typesex type="checkbox" checked=value)
+	if value
+		input(name='or_'+typesex type="checkbox" checked)
+	else
+		input(name='or_'+typesex type="checkbox")
 
 body
 	.row
-		form(action="edit-profile-back" method="POST" encType="multipart/form-data")
-			.col-4
+		form(action="edit-profile-back" method="POST" encType="multipart/form-data" style="margin:0")
+			.col-4.field
 				#photos.cadre.photo
-					+ppimg(values[0].img1, 'img-1', 'img1')
-					+ppimg(values[0].img2, 'img-2', 'img2')
-					+ppimg(values[0].img3, 'img-3', 'img3')
-					+ppimg(values[0].img4, 'img-4', 'img4')
-					+ppimg(values[0].img5, 'img-5', 'img5')
+					+ppimg(values.img1, 'img-1', 'img1')
+					+ppimg(values.img2, 'img-2', 'img2')
+					+ppimg(values.img3, 'img-3', 'img3')
+					+ppimg(values.img4, 'img-4', 'img4')
+					+ppimg(values.img5, 'img-5', 'img5')
 				#pinfos.cadre.txt
 					p.title.
 						#[strong Informations Personnelles]
-					+inputinfos(values[0].prenom, 'prenom', 'Prénom:', 'text')
-					+inputinfos(values[0].nom, 'nom', 'Nom:', 'text')
-					+inputinfos(values[0].ville, 'ville', 'Localisation:', 'text')
+					+inputinfos(values.prenom, 'prenom', 'Prénom:', 'text')
+					+inputinfos(values.nom, 'nom', 'Nom:', 'text')
+					+inputinfos(values.ville, 'ville', 'Localisation:', 'text')
 					label.labelinpt Genre
 					select.fieldinpt(form='edit' name='sexe')
-						+sexinfos(values[0].sexe)
+						+sexinfos(values.sexe)
 					label.labelinpt Date de Naissance:
-					input.fieldinpt(type="date" value=values[0].birth_date name="birth_date" required)
-			.col-4
+					input.fieldinpt(type="date" value=values.birth_date name="birth" required)
+			.col-4.field
 				//- informations propres au site | bio
 				#dinfos.cadre.txt
 					p.title.
 						#[strong Informations du Compte]
-					+inputinfos(values[0].login, 'pseudo', 'Pseudonyme', 'text')
+					+inputinfos(values.login, 'pseudo', 'Pseudonyme', 'text')
 					+inputinfos(null, 'old_password', 'Nouveau mot de passe', 'password')
 					+inputinfos(null, 'password', 'Confirmation du nouveau mot de passe', 'password')
-					+inputinfos(values[0].email, 'email', 'Email', 'email')
+					+inputinfos(values.email, 'email', 'Email', 'email')
 				#bio.cadre.txt
 					p.title.
 						#[strong Biographie]
-					textarea(form='edit' name='bio' placeholder='Parlez de vous' value=values[0].bio)
-			.col-4
+					textarea(form='edit' name='bio' placeholder='Parlez de vous' value=values.bio)
+			.col-4.field
 				//- tags | orientation
 				#tags.cadre.txt
-					+inputinfos(values[0].tags, 'tags', 'Liste de vos Tags', 'text')
+					+inputinfos(values.tags, 'tags', 'Liste de vos Tags', 'text')
 					br
 					for tagval in usertags
 						span.classtags #{tagval.name}
@@ -69,10 +74,10 @@ body
 					p.title.
 						#[strong Ce que vous recherchez]
 					.checkbox
-						+inputprfsex('h', values[0].or_h, 'homme')
+						+inputprfsex('h', values.or_h, 'homme')
 						span &#x2642;
-						+inputprfsex('f', values[0].or_f, 'femme')
+						+inputprfsex('f', values.or_f, 'femme')
 						span &#x2640;
-						+inputprfsex('a', values[0].or_a, 'autre')
+						+inputprfsex('a', values.or_a, 'autre')
 						span &#x2641;				
-			input.validbut(type="submit" value='Valider' name="valid")
+				input.validbut(type="submit" value='Valider' name="valid")
