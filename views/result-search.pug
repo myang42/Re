@@ -1,5 +1,4 @@
 link(href="./css/index.css" rel="stylesheet" type="text/css")
-link(href="./css/style.css" rel="stylesheet" type="text/css")
 
 title Matcha
 
@@ -38,11 +37,12 @@ form.searchform(action="/search-back" method="post")
 			+inputinfos(initialdata.distMax, 'distMax', 'Distance (Km)', 'number')(class = 'class-dist')
 			+inputinfos(initialdata.popMin, 'popMin', 'Popularité', 'number')(class = 'class-pop')
 			.agefield
-				label Selectionnez la tranche d'âge désirée (comprise entre 18-99 ans):
-				+inputnbr(initialdata.ageMin, 'ageMin', '18')(class = 'class-age')
-				|   -  
-				+inputnbr(initialdata.ageMax, 'ageMax', '99')(class = 'class-age')
-				span( id='age')
+				label Sélectionnez l'âge (entre 18-99 ans):
+				.agefield-inpt
+					+inputnbr(initialdata.ageMin, 'ageMin', '18')(class = 'class-age')
+					|   -  
+					+inputnbr(initialdata.ageMax, 'ageMax', '99')(class = 'class-age')
+					span( id='age')
 
 				script.
 					document.getElementById('age').style.color ='red';
@@ -68,7 +68,7 @@ form.searchform(action="/search-back" method="post")
 					}
 			br
 			label Trier par: 
-			select(form='search-from' name='sort')
+			select(form='search-from' name='sort' class='class-sortby')
 				- var SortBy = {sortvalue: ["pop","dist","age"], label: ["Popularité","Distance","Tranche d'âge"]};
 				- for (s = 0; s < 3; s++)
 					option(value=SortBy.sortvalue[s] name=SortBy.label[s]) #{SortBy.label[s]}
@@ -92,3 +92,5 @@ center
 			+profil(i)
 
 	.pages
+		a(href='/search-back/'+last_page) &larr; Résultats précèdents
+		a(href='/search-back/'+next_page) Plus de résultats &rarr;
