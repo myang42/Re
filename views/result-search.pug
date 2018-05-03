@@ -14,15 +14,14 @@ mixin inputprfsex(typesex, value, label)
 		input(name='or_'+typesex type="checkbox")
 
 mixin inputinfos(info, type, label, typeinfo)
-	label.labelinpt #{label}
-	input.fieldinpt(name=type type=typeinfo value=info placeholder= 'Veuillez saisir la '+label+' recherchée.')
+	label #{label}
+	input(name=type type=typeinfo value=info placeholder= label)&attributes(attributes)
 
 mixin inputnbr(info, type, valminmax)
 	if info == null
 		- info = valminmax
-	input(name=type type='number' min='18' max='99' value=info id=type onchange='checkage()')
+	input(name=type type='number' min='18' max='99' value=info id=type onchange='checkage()')&attributes(attributes)
 
-	
 form.searchform(action="/search-back" method="post")
 	.col-12#searcharea
 		span.title #[em Que recherchez vous?]
@@ -35,14 +34,14 @@ form.searchform(action="/search-back" method="post")
 			+inputprfsex('a', initialdata.or_a, 'autre')
 			| &#x2641;
 		.fields
-			+inputinfos(initialdata.tags, 'tags', 'Liste des Tags', 'text')
-			+inputinfos(initialdata.distMax, 'distMax', 'Distance', 'number')
-			+inputinfos(initialdata.popMin, 'popMin', 'Popularité', 'text')
+			+inputinfos(initialdata.tags, 'tags', 'Liste des Tags', 'text')(class = 'class-tags')
+			+inputinfos(initialdata.distMax, 'distMax', 'Distance (Km)', 'number')(class = 'class-dist')
+			+inputinfos(initialdata.popMin, 'popMin', 'Popularité', 'number')(class = 'class-pop')
 			.agefield
 				label Selectionnez la tranche d'âge désirée (comprise entre 18-99 ans):
-				+inputnbr(initialdata.ageMin, 'ageMin', '18')
+				+inputnbr(initialdata.ageMin, 'ageMin', '18')(class = 'class-age')
 				|   -  
-				+inputnbr(initialdata.ageMax, 'ageMax', '99')
+				+inputnbr(initialdata.ageMax, 'ageMax', '99')(class = 'class-age')
 				span( id='age')
 
 				script.
@@ -52,21 +51,27 @@ form.searchform(action="/search-back" method="post")
 						var young = document.getElementById('ageMin');
 						if (young.value < 18 || old.value > 99){
 							if (young.value < 18)
-								document.getElementById('age').innerHTML = ' Trop jeune !';
+								document.getElementById('age').innerHTML = '* Trop jeune !';
 							if (old.value > 99)
-								document.getElementById('age').innerHTML = ' Trop vieux !';
+								document.getElementById('age').innerHTML = '* Trop vieux !';
 							if (young.value < 18 && old.value > 99)
-								document.getElementById('age').innerHTML = ' Trop jeune et trop vieux !';
-						}
-						else if (old.value < young.value){
-							var tmp = old.value;
-							old.value = young.value;
-							young.value = tmp;
+								document.getElementById('age').innerHTML = '* Trop jeune et trop vieux !';
 						}
 						else{
 							document.getElementById('age').innerHTML = "";
 						}
+						if (old.value < young.value){
+							var tmp = old.value;
+							old.value = young.value;
+							young.value = tmp;
+						}
 					}
+			br
+			label Trier par: 
+			select(form='search-from' name='sort')
+				- var SortBy = {sortvalue: ["pop","dist","age"], label: ["Popularité","Distance","Tranche d'âge"]};
+				- for (s = 0; s < 3; s++)
+					option(value=SortBy.sortvalue[s] name=SortBy.label[s]) #{SortBy.label[s]}
 		input(type='submit' name='Valider' value='Valider')
 
 mixin profil(i)

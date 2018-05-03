@@ -602,7 +602,7 @@ app.get('/', function(req, res) {
             if (result.length == 0)
               res.render('search', {id: sess.user_id})
             else{
-              for (var j = 0; j < 10 && j < result.length; j++) {
+              for (var j = 0; j < 12 && j < result.length; j++) {
                 result[j].status = _ago(result[j].status, result[j].time)
                 result[j].birth_date = dateDiff(result[j].birth_date)
               }
@@ -885,7 +885,8 @@ app.post('/search-back', function(req, res){
   var distMax       = post.distMax
   var n             = 0;
   var sort          = post.sort;
-  var tags          = post.tags.replace(/[ ]*/g, '').substr(1).split('#')
+  var reghashtag	= /(?<=#)[^\#]*/
+  var tags          = post.tags.match(reghashtag)
   var sql           = "SELECT count(vote.id) as nb_vote, " + (post.tags != "" ? "count(DISTINCT user_tag.id) as nb_tags, " : " " ) + "user.id, user.login, user.ville, user.sexe, user.status, user.time, user.bio, user.popularity, user.birth_date, FLOOR(get_distance_metres(connected.latitude, connected.longitude, user.latitude, user.longitude) / 1000) dist, user.img1 FROM user " + (post.tags != "" ? " INNER JOIN user_tag ON user_tag.id_user = user.id INNER JOIN tags ON user_tag.id_tag = tags.id" : "") + " INNER JOIN user AS connected ON connected.id = " + req.session.user_id + "  LEFT JOIN vote ON vote.id_src = user.id || vote.id_dst = user.id WHERE (user.birth_date IS NOT NULL AND user.img1 IS NOT NULL AND user.longitude IS NOT NULL AND user.latitude IS NOT NULL) AND  "
   if (or_h + or_f + or_a != 0)
   {
@@ -928,7 +929,7 @@ app.post('/search-back', function(req, res){
     sql += (or_h + or_f + or_a != 0 || ageMin != "" || ageMax != "" ?  " AND " : "") + " user.popularity > " + popMin
     n++;
   }
-  if (post.tags != "")
+  if (post.tags != "" && tags != null)
   {
     tags.forEach(function(element) {
       sql += (or_h + or_f + or_a != 0 || ageMin != "" || ageMax != "" || !isNaN(popMin) ? " AND " : "") + "tags.name = '" + element + "'"
@@ -953,7 +954,7 @@ app.post('/search-back', function(req, res){
     if (result.length == 0)
       res.redirect('search')
     else{
-    for (var j = 0; j < 10 && j < result.length; j++) {
+    for (var j = 0; j < 12 && j < result.length; j++) {
       result[j].status = _ago(result[j].status, result[j].time)
       result[j].birth_date = dateDiff(result[j].birth_date)
     }
