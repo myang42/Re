@@ -1,9 +1,11 @@
-link(href="./css/user.css" rel="stylesheet" type="text/css")
+link(href="/css/user.css" rel="stylesheet" type="text/css")
 title Profil
 
 include elements/header.pug
 include elements/footer.pug
 
-| HelloWorld
-br
-| Ceci estun test ... je ne comprends pas pourquoi le footer ne se mets pas bien en place ...
+.row(style="height:auto;")
+	.col-12.ppinfo.User-PrimInfos
+	.col-12(style="padding-left:10%;padding-right:10%;")
+		.col-9.cadre.User-TextInfos
+		.col-3.cadre.User-PrefInfos
